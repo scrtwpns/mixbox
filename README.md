@@ -11,7 +11,9 @@ This way, Mixbox achieves that blue and yellow mix to green, the same way real p
 
 * Paper: https://scrtwpns.com/mixbox.pdf<br>
 * Video: https://youtu.be/9egCAxhOHg4<br>
-* Talk: https://youtu.be/k91cDhpCOpg<br>
+* Talk: https://youtu.be/_qa5iWdfNKg<br>
+
+Mixbox is shipping in the upcoming Rebelle 5 as the [Rebelle Pigments](https://www.escapemotions.com/blog/rebelle-5-meet-color-pigments) feature.
 
 ## Usage
 The simplest way to use Mixbox is with the *lerp* interface:
@@ -21,7 +23,6 @@ The simplest way to use Mixbox is with the *lerp* interface:
 
 int main()
 {
-
   unsigned char r1=252, g1=211, b1=0;  // bright yellow
   unsigned char r2=0,   g2=0,   b2=96; // deep blue
   float t = 0.5;
