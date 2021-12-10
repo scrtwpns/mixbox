@@ -10,7 +10,7 @@ It uses the Kubelka & Munk theory to predict the color of the resulting mixture.
 This way, Mixbox achieves that blue and yellow mix to green, the same way real pigments do.
 
 * Paper: https://scrtwpns.com/mixbox.pdf<br>
-* Video: https://youtu.be/9egCAxhOHg4<br>
+* Video: https://youtu.be/ATzVPVNp1qA<br>
 * Talk: https://youtu.be/_qa5iWdfNKg<br>
 
 Mixbox is shipping in the upcoming Rebelle 5 as the [Rebelle Pigments](https://www.escapemotions.com/blog/rebelle-5-meet-color-pigments) feature.
