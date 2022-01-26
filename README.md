@@ -12,8 +12,9 @@ This way, Mixbox achieves that blue and yellow mix to green, the same way real p
 * Paper: https://scrtwpns.com/mixbox.pdf<br>
 * Video: https://youtu.be/ATzVPVNp1qA<br>
 * Talk: https://youtu.be/_qa5iWdfNKg<br>
+* Demo: https://scrtwpns.com/mixbox/painter<br>
 
-Mixbox is shipping in the upcoming Rebelle 5 as the [Rebelle Pigments](https://www.escapemotions.com/blog/rebelle-5-meet-color-pigments) feature.
+Mixbox is shipping in Rebelle 5 Pro as the [Rebelle Pigments](https://www.escapemotions.com/products/rebelle/about) feature.
 
 ## Usage
 The simplest way to use Mixbox is with the *lerp* interface:
@@ -53,9 +54,14 @@ for(int i=0;i<MIXBOX_NUMLATENTS;i++)
 
 mixbox_latent_to_srgb8(latentMix,&r,&g,&b);  
 ```
+## Demo
+<p align="center">
+  <a href="https://scrtwpns.com/mixbox/painter"><img src="https://scrtwpns.com/mixbox/painter_git.jpg"/></a>
+</p>
+This is a toy painting app with soft round brush and a smudge tool. It runs two color mixing implementations in parallel: one based on Mixbox and the other that performs ordinary RGB mixing. The app allows switching between them on the fly, showing the differences between pigment-based mixing and the normal RGB mixing. To launch the demo in your browser, please <a href="https://scrtwpns.com/mixbox/painter">click here</a>.
 
 ## License
-Copyright (c) 2021, Secret Weapons. All rights reserved.<br>
+Copyright (c) 2022, Secret Weapons. All rights reserved.<br>
 This code is for non-commercial use only. It is provided for research and evaluation purposes.<br>
 If you wish to obtain commercial license, please contact: mixbox@scrtwpns.com
 
