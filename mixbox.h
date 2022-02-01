@@ -1,4 +1,4 @@
-// MIXBOX v1.2 (c) 2021 Secret Weapons
+// MIXBOX v1.2 (c) 2022 Secret Weapons
 // This is for non-commercial use only.
 // Contact: mixbox@scrtwpns.com
 
