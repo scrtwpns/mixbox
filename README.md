@@ -14,7 +14,7 @@ This way, Mixbox achieves that blue and yellow mix to green, the same way real p
 * Talk: https://youtu.be/_qa5iWdfNKg<br>
 * Demo: https://scrtwpns.com/mixbox/painter<br>
 
-Mixbox is shipping in Procreate 5.2 as the [Procreate Pigments](https://procreate.art) feature.
+Mixbox is shipping in Rebelle 5 Pro as the [Rebelle Pigments](https://www.escapemotions.com/products/rebelle/about), Procreate 5.2 as the [Procreate Pigments](https://procreate.art) feature.
 
 ## Usage
 The simplest way to use Mixbox is with the *lerp* interface:
