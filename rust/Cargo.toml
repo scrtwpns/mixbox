@@ -1,0 +1,13 @@
+[package]
+name = "mixbox"
+version = "2.0.0"
+edition = "2021"
+description = "Pigment-Based Color Mixing"
+readme = "README.md"
+homepage = "https://scrtwpns.com/mixbox"
+repository = "https://github.com/scrtwpns/mixbox"
+license = "CC-BY-NC-4.0"
+keywords = ["color-mixing", "pigments", "rgb", "kubelka-munk", "paints"]
+
+[dependencies]
+libm = "0.2.5"
