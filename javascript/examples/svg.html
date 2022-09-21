@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <svg width="256" height="256">
+      <rect id="rect" width="256" height="256">
+    </svg>
+    <script src="https://scrtwpns.com/mixbox.js"></script>
+    <script>
+      var color1 = "rgb(0, 33, 133)";  // blue
+      var color2 = "rgb(252, 211, 0)"; // yellow
+      document.getElementById('rect').setAttribute('fill', mixbox.lerp(color1, color2, 0.5));
+    </script>
+  </body>
+</html>

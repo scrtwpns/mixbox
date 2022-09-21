@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.1/lib/p5.js"></script>
+    <script src="https://scrtwpns.com/mixbox.js"></script>
+    <script>
+      function setup() {
+        createCanvas(400, 400);
+      }
+
+      function draw() {
+        var color1 = color(0, 33, 133);  // blue
+        var color2 = color(252, 211, 0); // yellow
+
+        var colorMix = mixbox.lerp(color1, color2, 0.5);
+  
+        background(colorMix);
+      }
+    </script>
+  </head>
+<body>
+</body>
+</html>

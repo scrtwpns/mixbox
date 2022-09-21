@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.js"></script>
+    <script src="https://scrtwpns.com/mixbox.js"></script>
+    <script>
+      var scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+      scene.background = new THREE.Color(0xffffff);
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize( window.innerWidth, window.innerHeight );
+      document.body.appendChild( renderer.domElement );
+      
+      const geometry = new THREE.BoxGeometry();
+      var cubes = [];
+        
+      var color1 = new THREE.Color(0x002185); // blue
+      var color2 = new THREE.Color(0xfcd300); // yellow
+
+      for(var i = 0; i < 7; i++) {
+        var colorMix = mixbox.lerp(color1, color2, i / 6.0).toString();
+        const material = new THREE.MeshBasicMaterial( { color: colorMix } );
+        const cube = new THREE.Mesh( geometry, material );
+        cube.position.x = ((i / 6.0) * 2.0 - 1.0) * 4.5;
+        cube.rotation.x = i / 3.0;
+        scene.add(cube);
+        cubes.push(cube);
+      }
+
+      camera.position.z = 5;
+
+      function animate() {
+        requestAnimationFrame( animate );        
+        for(var i=0;i<7;i++) {
+          cubes[i].rotation.x += 0.01;
+          cubes[i].rotation.y += 0.01;
+        }
+        renderer.render( scene, camera );
+      }
+
+      animate();
+    </script>
+  </body>
+</html>

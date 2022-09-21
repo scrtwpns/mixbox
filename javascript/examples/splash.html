@@ -1,0 +1,162 @@
+<!-- 
+  Inspired by Processing sketch by Okazz
+  https://openprocessing.org/sketch/1533000
+ -->
+
+<!DOCTYPE html>
+<html>
+  <head>  
+  </head>
+  <body style="background-color: #dee0e3;">
+    <!-- Mixbox -->
+    <script src="https://scrtwpns.com/mixbox.js"></script>
+
+    <div id="cnvs" align="center" style="margin-top: 50px;"> </div>
+
+    <!-- Code -->
+    <script>
+      var width = 800;
+      var height = 650;
+      var numSplashes = 270;
+      var frame = 0;
+
+      var canvas = document.createElement('canvas');
+      canvas.width  = width;
+      canvas.height = height;
+      document.getElementById("cnvs").appendChild(canvas);
+      var ctx = canvas.getContext("2d");
+      var pixels = new Uint8ClampedArray(width*height*4);
+      var imageData = new ImageData(pixels,width,height);
+      fillBackground(255,255,255, 240, 240, 230, 255);
+
+      // grid for perlin noise
+      var grid = [];
+      var nodes = 128;
+      var noiseScale = 0.007;
+
+      for (let i=0; i<nodes*nodes; i++)
+      {   
+          var unit = [];
+          var angle = Math.random() * 2 * Math.PI; 
+          unit.push(Math.cos(angle));
+          unit.push(Math.sin(angle)); 
+          grid.push(unit);     
+      }  
+
+      // color palette
+      var colors =  [ [249,250,249], [249,250,249], [255,236,4], [126,2,46], [255,236,4], [13,27,68], [255,236,4], [249,250,249], [249,250,249]];    
+      
+      function update() 
+      {
+        frame++;  
+        if (frame < numSplashes)
+        {
+          window.requestAnimationFrame(update); 
+        }         
+      };
+
+      function splash()
+      {
+        var cx = randomGauss(0.5,0.15)*width;
+        var cy = randomGauss(0.5,0.15)*height;
+        var radius = width/2;
+        for(var i=0; i<4; i++){radius = random(10,radius);}
+        numStains = randomInt(3, radius);
+
+        for(var i=0; i<numStains; i++)
+        {
+          var angle = random(0.0, 6.28);
+          var stain_x = cx + radius*Math.cos(angle); 
+          var stain_y = cy + radius*Math.sin(angle); 
+          var r = randomGauss(20, 15) * random(0,random(0,random(0,2)));
+          circle(stain_x, stain_y, r);
+        }
+      }
+
+      function circle(cx,cy,radius)
+      {
+        var colorIndex = Math.round((perlin(cx*noiseScale, cy*noiseScale)+1.0)*0.5*8);
+        var clr = colors[colorIndex];   
+
+        var x0 = Math.round(clamp(cx-radius, 0, width));
+        var x1 = Math.round(clamp(cx+radius, 0, width));
+        var y0 = Math.round(clamp(cy-radius, 0, height));
+        var y1 = Math.round(clamp(cy+radius, 0, height));
+
+        var alpha = random(0.01,0.7);
+        
+        for(var y=y0; y<y1; y++)
+        for(var x=x0; x<x1; x++)
+        {
+          var d = dist2D(cx, cy, x, y);           
+          if( d < radius)
+          {
+            var r = pixels[(x+y*width)*4+0]; 
+            var g = pixels[(x+y*width)*4+1];
+            var b = pixels[(x+y*width)*4+2];
+
+            var bgColor = [r,g,b]; 
+            var mixedColor = mixbox.lerp(bgColor, clr, alpha * smoothStep(radius, radius*0.95, d));
+          
+            pixels[(x+y*width)*4+0] = mixedColor[0];
+            pixels[(x+y*width)*4+1] = mixedColor[1];
+            pixels[(x+y*width)*4+2] = mixedColor[2];
+            pixels[(x+y*width)*4+3] = 255;
+          }
+        }
+
+        ctx.putImageData(imageData,0,0);
+      }
+
+      function fillBackground(r,g,b, r2, g2, b2, a)
+      {
+        for(var y=0;y<height;y++)
+        for(var x=0;x<width;x++)
+        {
+          pixels[(x+y*width)*4+0] = (x>40 && x<(width-40) && y>40 && y<(height-40)) ? r2 : r;
+          pixels[(x+y*width)*4+1] = (x>40 && x<(width-40) && y>40 && y<(height-40)) ? g2 : g;
+          pixels[(x+y*width)*4+2] = (x>40 && x<(width-40) && y>40 && y<(height-40)) ? b2 : b;
+          pixels[(x+y*width)*4+3] = a;
+        }
+        ctx.putImageData(imageData,0,0);
+      }
+
+      function clamp(x, lowerlimit, upperlimit) { if (x<lowerlimit) {return lowerlimit;} else if(x>upperlimit){return upperlimit;} else {return x;}}
+      function smoothStep(edge0, edge1, x) { x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0); return x * x * (3 - 2 * x);}
+      function dist2D(ax,ay,bx,by) { return Math.sqrt((ax-bx)*(ax-bx) + (ay-by)*(ay-by));}
+      function box_muller(){ return Math.sqrt(-2 * Math.log(1 - Math.random())) * Math.cos(2 * Math.PI * Math.random());}
+      function remap(x, from1, to1, from2, to2) { return from2 + (to2 - from2) * ((x-from1)/(to1-from1));}
+      function random(min, max) {return remap(Math.random(), 0.0, 1.0, min, max);}
+      function randomInt(min, max) {return Math.round(random(min, max));}
+      function randomGauss(mean, variation){return box_muller()*variation + mean;}
+      function randomGaussInt(mean, variation){return Math.round(box_muller()*variation + mean);}
+      function perlin(_x,_y)
+      {
+          var x = _x;
+          var y = _y;
+
+          var x0 = Math.floor(x);
+          var x1 = x0+1;
+          var y0 = Math.floor(y);
+          var y1 = y0+1;
+
+          var dot_LT = dot([x-x0,y-y0], grid[(x0&127) + (y0&127)*nodes]);
+          var dot_RT = dot([x-x1,y-y0], grid[(x1&127) + (y0&127)*nodes]);
+          var dot_LB = dot([x-x0,y-y1], grid[(x0&127) + (y1&127)*nodes]);
+          var dot_RB = dot([x-x1,y-y1], grid[(x1&127) + (y1&127)*nodes]);
+
+          var top       = lerp_smooth(dot_LT, dot_RT, x-x0);
+          var bottom    = lerp_smooth(dot_LB, dot_RB, x-x0);
+          var intensity = lerp_smooth (top, bottom, y-y0);
+
+          return intensity;
+      }
+      function dot(a,b) {return a[0] * b[0] + a[1] * b[1];}
+      function lerp_smooth(a,b,t){var t_smooth = 6*t**5 - 15*t**4 + 10*t**3; return a*(1-t_smooth) + b*t_smooth;}
+
+      for(var s=0; s<numSplashes; s++){splash();}
+      //update();
+      
+    </script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <div id="blue" class="box">BLUE</div>
+    <div id="mixed" class="box">MIXED</div>
+    <div id="yellow" class="box">YELLOW</div>    
+
+    <script src="https://scrtwpns.com/mixbox.js"></script>
+    <script>
+        var blue = "rgb(0, 33, 133)";
+        var yellow = "rgb(252, 211, 0)";
+        var t = 0.5;
+        var mixed  = mixbox.lerp(blue, yellow, t);
+
+        document.getElementById("blue").style.backgroundColor = blue;
+        document.getElementById("mixed").style.backgroundColor = mixed;
+        document.getElementById("yellow").style.backgroundColor = yellow;           
+    </script>
+
+    <style>
+        .box{width: 200px; height: 200px; padding: 10px; margin: 10px; color: white; font-weight: bold;}
+    </style>
+  </body>
+</html>
