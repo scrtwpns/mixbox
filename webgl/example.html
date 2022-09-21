@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <canvas id="canvas" width="512" height="512"></canvas>
+    <script src="https://scrtwpns.com/mixbox.js"></script>
+    <script>
+      var canvas = document.getElementById("canvas");
+      var gl = canvas.getContext("webgl");
+
+      var vertexShader = `
+        attribute vec2 position;
+
+        void main(void) {
+          gl_Position = vec4(position, 0.0, 1.0);
+        }
+      `;
+
+      var fragmentShader = `
+        precision highp float;
+
+        uniform sampler2D mixbox_lut;
+        
+        #include "mixbox.glsl"
+
+        void main(void) {
+          vec3 rgb1 = vec3(0, 0.129, 0.522); // blue
+          vec3 rgb2 = vec3(0.988, 0.827, 0); // yellow 
+          float t = gl_FragCoord.x / 512.0;  // mixing ratio
+
+          vec3 rgb = mixbox_lerp(rgb1, rgb2, t);
+
+          gl_FragColor = vec4(rgb, 1.0);
+        }
+      `;
+
+      fragmentShader = fragmentShader.replace('#include "mixbox.glsl"', mixbox.glsl());
+
+      var shaderProgram = gl.createProgram();
+      gl.attachShader(shaderProgram, compileShader(gl, gl.VERTEX_SHADER, vertexShader));
+      gl.attachShader(shaderProgram, compileShader(gl, gl.FRAGMENT_SHADER, fragmentShader));
+      gl.linkProgram(shaderProgram);
+
+      var vertexPosition =  gl.getAttribLocation(shaderProgram, "position");
+
+      var positions = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0];
+
+      var positionBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+      function render(now) {
+        gl.useProgram(shaderProgram);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, mixbox.lutTexture(gl));
+        gl.uniform1i(gl.getUniformLocation(shaderProgram, "mixbox_lut"), 0);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.vertexAttribPointer(vertexPosition, 2, gl.FLOAT, false, 0, 0)
+        gl.enableVertexAttribArray(vertexPosition);
+
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+        requestAnimationFrame(render);
+      }
+
+      requestAnimationFrame(render);
+
+      function compileShader(gl, type, source) {
+        var shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        return shader;
+      }        
+    </script>
+  </body>
+</html>
