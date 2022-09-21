@@ -1,0 +1,29 @@
+{
+  "name": "com.scrtwpns.mixbox",
+  "version": "2.0.0",
+  "displayName": "Mixbox",
+  "description": "Pigment-Based Color Mixing",
+  "unity": "2019.3",
+  "author": {
+    "name": "Secret Weapons",
+    "email": "mixbox@scrtwpns.com",
+    "url": "https://scrtwpns.com"
+  },
+  "samples": [
+  {
+    "displayName": "Built-in Samples",
+    "description": "Contains sample shaders for the Built-in Render Pipelne",
+    "path": "Samples~/SamplesBuiltin"
+  },
+  {
+    "displayName": "URP Samples",
+    "description": "Contains sample shaders for the Universal Render Pipelne",
+    "path": "Samples~/SamplesURP"
+  },
+  {
+    "displayName": "HDRP Samples",
+    "description": "Contains sample shaders for the High Definition Render Pipelne",
+    "path": "Samples~/SamplesHDRP"
+  }
+  ]
+}
