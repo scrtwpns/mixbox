@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.scrtwpns</groupId>
+  <artifactId>mixbox</artifactId>
+  <version>2.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>mixbox</name>
+  <description>Pigment-Based Color Mixing</description>
+  <url>https://scrtwpns.com/mixbox</url>
+
+  <licenses>
+    <license>
+      <name>CC-BY-NC-4.0</name>
+      <url>https://creativecommons.org/licenses/by-nc/4.0/legalcode</url>
+      <comments>If you want to obtain commercial license, please contact: mixbox@scrtwpns.com</comments>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Secret Weapons</name>
+      <email>mixbox@scrtwpns.com</email>
+      <organization>Secret Weapons</organization>
+      <organizationUrl>https://scrtwpns.com</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/scrtwpns/mixbox.git</connection>
+    <url>http://github.com/scrtwpns/mixbox</url>
+  </scm>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
