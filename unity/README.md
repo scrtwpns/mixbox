@@ -1,6 +1,6 @@
 # Mixbox for Unity
 
-Open `Window` > `Package Manager` and choose ` + ` > `Add packge from git URL...`:
+Open `Window` > `Package Manager` and choose ` + ` > `Add packge from git URL..`:
 ```
 https://github.com/scrtwpns/mixbox.git#upm
 ```
