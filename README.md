@@ -23,7 +23,7 @@ Mixbox is shipping in Rebelle 5 Pro as the [Rebelle Pigments](https://www.escape
 - [Rust](rust): add `mixbox = "2.0.0"` to your Cargo.toml
 - [Unity](unity): add package from git url `git://github.com/scrtwpns/mixbox.git#upm`
 - [Godot](godot): copy `godot\addons` to the root of your project
-- [Shaders](shaders): load `mixbox_lut.png` as texture and paste the Mixbox `.glsl`/`.hlsl` code into your shader
+- [Shaders](shaders): load `mixbox_lut.png` as texture and include `mixbox.glsl`/`.hlsl`/`.metal` code into your shader
 
 ## Pigment Colors
 | Pigment |  | RGB | Float RGB | Linear RGB |

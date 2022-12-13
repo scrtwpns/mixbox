@@ -77,6 +77,46 @@ float3 MixThree(float3 rgb1, float3 rgb2, float3 rgb3)
 }
 ```
 
+## Metal Shader
+```metal
+#include <metal_stdlib>
+using namespace metal;
+
+// uncomment the following line if you work in linear space
+// #define MIXBOX_COLORSPACE_LINEAR
+
+#include "mixbox.metal"
+
+fragment float4 // load "mixbox_lut.png" into texture 0
+fragment_main(texture2d<float> mixbox_lut [[texture(0)]])
+{
+    float3 rgb1 = float3(0, 0.129, 0.522); // blue
+    float3 rgb2 = float3(0.988, 0.827, 0); // yellow
+
+    float t = 0.5; // mixing ratio
+
+    float3 rgb_mix = mixbox_lerp(mixbox_lut, rgb1, rgb2, t);
+
+    return float4(rgb_mix, 1.0);
+}
+```
+```metal
+float3 mix_three(texture2d<float> mixbox_lut,
+                 float3 rgb1, float3 rgb2, float3 rgb3)
+{
+    mixbox_latent z1 = mixbox_rgb_to_latent(mixbox_lut, rgb1);
+    mixbox_latent z2 = mixbox_rgb_to_latent(mixbox_lut, rgb2);
+    mixbox_latent z3 = mixbox_rgb_to_latent(mixbox_lut, rgb3);
+
+    // mix together 30% of rgb1, 60% of rgb2, and 10% of rgb3
+    mixbox_latent z_mix = 0.3*z1 + 0.6*z2 + 0.1*z3;
+
+    float3 rgb_mix = mixbox_latent_to_rgb(z_mix);
+
+    return rgb_mix;
+}
+```
+
 ## Pigment Colors
 | Pigment |  | RGB | Float RGB | Linear RGB |
 | --- | --- |:----:|:----:|:----:|
