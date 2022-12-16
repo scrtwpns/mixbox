@@ -49,7 +49,13 @@
 
 #include "mixbox.h"
 
-#include <cmath>
+#ifdef __cplusplus
+  #include <cmath>
+  // For pow instead of std::pow
+  using namespace std;
+#else
+  #include <math.h>
+#endif
 
 #ifdef _MSC_VER
   #define INLINE __forceinline
@@ -66,12 +72,12 @@ INLINE static float clamp01(float x)
 
 INLINE static float srgb_to_linear(float x)
 {
-  return (x >= 0.04045f) ? std::pow((x + 0.055f) / 1.055f, 2.4f) : x/12.92f;
+  return (x >= 0.04045f) ? pow((x + 0.055f) / 1.055f, 2.4f) : x/12.92f;
 }
 
 INLINE static float linear_to_srgb(float x)
 {
-  return (x >= 0.0031308f) ? 1.055f*std::pow(x, 1.0f/2.4f) - 0.055f : 12.92f*x;
+  return (x >= 0.0031308f) ? 1.055f*pow(x, 1.0f/2.4f) - 0.055f : 12.92f*x;
 }
 
 INLINE static void eval_polynomial(float c0, float c1, float c2, float c3, float* rgb)
@@ -127,13 +133,13 @@ INLINE static void float_rgb_to_latent(float r, float g, float b, mixbox_latent 
   const float y = g * 63.0f;
   const float z = b * 63.0f;
 
-  const int ix = int(x);
-  const int iy = int(y);
-  const int iz = int(z);
+  const int ix = (int)x;
+  const int iy = (int)y;
+  const int iz = (int)z;
 
-  const float tx = x - float(ix);
-  const float ty = y - float(iy);
-  const float tz = z - float(iz);
+  const float tx = x - (float)ix;
+  const float ty = y - (float)iy;
+  const float tz = z - (float)iz;
 
   const unsigned char* const lut_ptr = &(mixbox_lut()[((ix + iy*64 + iz*64*64) & 0x3FFFF) * 3]);
 
@@ -189,7 +195,7 @@ INLINE static void latent_to_rgb(mixbox_latent latent, unsigned char* out_r, uns
 
 INLINE static void rgb_to_latent(unsigned char r, unsigned char g, unsigned char b, mixbox_latent out_latent)
 {
-  float_rgb_to_latent(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, out_latent);
+  float_rgb_to_latent((float)r / 255.0f, (float)g / 255.0f, (float)b / 255.0f, out_latent);
 }
 
 INLINE static void linear_float_rgb_to_latent(float r, float g, float b, mixbox_latent out_latent)
@@ -373,6 +379,10 @@ struct zhuffman
   uint16 value[288];
 };
 
+#ifndef __cplusplus
+  typedef struct zhuffman zhuffman;
+#endif
+
 INLINE static int bitreverse16(int n)
 {
   n = ((n & 0xAAAA) >>  1) | ((n & 0x5555) << 1);
@@ -449,6 +459,10 @@ struct zbuf
 
   zhuffman z_length, z_distance;
 };
+
+#ifndef __cplusplus
+  typedef struct zbuf zbuf;
+#endif
 
 INLINE static unsigned char decode_b85_char(char c)
 {
@@ -693,13 +707,7 @@ static int decompress(char* obuffer, int olen)
 
 INLINE static const unsigned char* mixbox_lut()
 {
-  struct mixbox_init_t
-  {
-    unsigned char lut[64*64*64*3 + 12675];
-    mixbox_init_t() { decompress((char*)lut, sizeof(lut)); }
-  };
-
-  static const mixbox_init_t decompressed;
-
-  return decompressed.lut;
+  static unsigned char lut[64*64*64*3 + 12675];
+  decompress((char*)&lut[0], sizeof(lut));
+  return &lut[0];
 }
