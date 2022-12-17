@@ -117,6 +117,36 @@ float3 mix_three(texture2d<float> mixbox_lut,
 }
 ```
 
+## OSL Shader
+```c
+#include "mixbox.osl"
+
+shader mix(
+    color rgb1 = color(0.0, 0.015, 0.235), // blue
+    color rgb2 = color(0.973, 0.651, 0.0), // yellow
+    float t = 0.5,                         // mixing ratio
+    output color rgb_mix = 0
+  )
+{
+    rgb_mix = mixbox_lerp(rgb1, rgb2, t);
+}
+```
+```c
+color mix_three(color rgb1, color rgb2, color rgb3)
+{
+    mixbox_latent z1 = mixbox_rgb_to_latent(rgb1);
+    mixbox_latent z2 = mixbox_rgb_to_latent(rgb2);
+    mixbox_latent z3 = mixbox_rgb_to_latent(rgb3);
+
+    // mix together 30% of rgb1, 60% of rgb2, and 10% of rgb3
+    mixbox_latent z_mix = 0.3*z1 + 0.6*z2 + 0.1*z3;
+
+    color rgb_mix = mixbox_latent_to_rgb(z_mix);
+
+    return rgb_mix;
+}
+```
+
 ## Pigment Colors
 | Pigment |  | RGB | Float RGB | Linear RGB |
 | --- | --- |:----:|:----:|:----:|
