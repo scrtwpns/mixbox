@@ -61,7 +61,6 @@ local min = math.min
 local max = math.max
 local pow = math.pow
 local int = math.floor
-local round = math.round
 local lut
 
 function lerp(color1, color2, t)
