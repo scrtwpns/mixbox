@@ -24,6 +24,7 @@ Mixbox is shipping in Rebelle 5 Pro as the [Rebelle Pigments](https://www.escape
 - [Unity](unity): add package from git url `git://github.com/scrtwpns/mixbox.git#upm`
 - [Godot](godot): copy `godot\addons` to the root of your project
 - [Shaders](shaders): load `mixbox_lut.png` as texture and include `mixbox.glsl`/`.hlsl`/`.metal` code into your shader
+- [Lua](lua): add the `.lua` files from `lua` to the root of your project
 
 ## Pigment Colors
 | Pigment |  | RGB | Float RGB | Linear RGB |
@@ -344,6 +345,20 @@ gl.useProgram(shaderProgram);
 gl.activeTexture(gl.TEXTURE0);
 gl.bindTexture(gl.TEXTURE_2D, mixbox.lutTexture(gl));
 gl.uniform1i(gl.getUniformLocation(shaderProgram, "mixbox_lut"), 0);
+```
+
+## Lua
+
+```lua
+local mixbox = require("mixbox")
+
+local rgb1 = {0, 33, 133}  -- blue
+local rgb2 = {252, 211, 0} -- yellow
+t = 0.5                    -- mixing ratio
+
+local rgb = mixbox.lerp(rgb1, rgb2, t)
+
+print(table.unpack(rgb))
 ```
 
 ## Examples
