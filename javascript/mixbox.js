@@ -747,7 +747,7 @@
       10, 10, 11, 11, 12, 12, 13, 13
     ];
 
-    var lenghtBase = [
+    var lengthBase = [
       3, 4, 5, 6, 7, 8, 9, 10, 11, 13,
       15, 17, 19, 23, 27, 31, 35, 43, 51, 59,
       67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0
@@ -883,7 +883,7 @@
         else {
           if (z === 256) return;
           z -= 257;
-          var len = lenghtBase[z];
+          var len = lengthBase[z];
           if (lengthExtra[z] !== 0) len += receive(lengthExtra[z]);
           z = huffmanDecode(distance);
           var dist = distBase[z];
